@@ -1,4 +1,4 @@
-﻿using Deeproxio.Infrastructure;
+﻿using Deeproxio.Infrastructure.Runtime;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -10,14 +10,14 @@ namespace Deeproxio.SettingsApi
     {
         public Startup(IHostingEnvironment env)
         {
-			var builder = new ConfigurationBuilder()
-		        .SetBasePath(env.ContentRootPath)
-		        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-		        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
-	        builder.AddEnvironmentVariables();
-	        Configuration = builder.Build();
-		}
+            builder.AddEnvironmentVariables();
+            Configuration = builder.Build();
+        }
 
         public IConfiguration Configuration { get; }
 
@@ -26,12 +26,12 @@ namespace Deeproxio.SettingsApi
         {
             services.AddMvc();
 
-	        services.AddDistributedRedisCache(options =>
-	        {
-		        options.Configuration = "redis-local";
-		        options.InstanceName = "master";
-	        });
-		}
+            services.AddDistributedRedisCache(options =>
+            {
+                options.Configuration = "redis-local";
+                options.InstanceName = "master";
+            });
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
